@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "posts_categories")
+@IdClass(PostCategoryId.class)
 public class PostCategory {
 
     @Id
