@@ -41,4 +41,8 @@ public class UserService {
         return response;
     }
 
+    public User findUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(); // 찾아내지 못할 경우 에러가 발생하게 처리 -> orElseThrow
+        return user;
+    }
 }
