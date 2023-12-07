@@ -6,10 +6,10 @@ import kr.co.project.f1korea.dto.UserRequest;
 import kr.co.project.f1korea.dto.UserResponse;
 import kr.co.project.f1korea.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UserController {
@@ -33,4 +33,6 @@ public class UserController {
         session.setAttribute("userId",response.getUser().getEmail());
         return ResponseEntity.ok().body(response);
     }
+
+
 }

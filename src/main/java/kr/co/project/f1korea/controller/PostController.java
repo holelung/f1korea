@@ -66,4 +66,5 @@ public class PostController {
         Post post = postService.update(id, updatePost);
         return ResponseEntity.ok().body(post);
     }
+
 }
