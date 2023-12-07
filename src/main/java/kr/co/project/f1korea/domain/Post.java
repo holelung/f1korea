@@ -27,7 +27,6 @@ public class Post {
     private Long postId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User userId;
 
     @Column(name = "title", nullable = false)

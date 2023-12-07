@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>F1 Korea Community</title>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.16/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">F1 Korea</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Video</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Latest</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Schedule</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Teams</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Community</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="btn btn-primary" href="#">Sign In</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Community</h2>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button">Search</button>
+        </div>
+    </div>
+
+    <!-- Posts list -->
+    <div class="list-group" th:each="item : ${posts}">
+        <div th:if="${item.userId !=null}">
+            <div th:text="${item.userId.name}"></div>
+        </div>
+
+        <!-- Example post -->
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" th:text = "${item.title}"></h5>
+                <small>3일 전</small>
+            </div>
+            <p class="mb-1" th:text ="${item.content}"></p>
+            <small>작성자: 홍길동</small>
+        </a>
+        <!-- More posts can be added here -->
+    </div>
+</div>
+</body>
+</html>
+
+
+<!--<a href="/new-post" class="btn btn-primary">글 작성하기!</a>-->
+<!--<div class="container">-->
+<!--    <div class="row-6" th:each="item : ${posts}">-->
+<!--        <div class="card">-->
+<!--            <div class="card-header" th:text = "${item.title}"></div>-->
+<!--            <div class="card-body">-->
+<!--                <p class="card-text" th:text = "${item.content}"></p>-->
+<!--                <a th:href="@{/posts/{id}(id=${item.postId})}" class="btn btn-primary">글 보러가기</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

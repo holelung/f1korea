@@ -21,18 +21,24 @@ public class PostViewController {
     //글 목록 불러오기
     //카테고리 /posts/(category)/  -->추가해야함
     @GetMapping("/posts")
-    public ModelAndView getArticle(){
+    public ModelAndView getPost(){
         ModelAndView mav = new ModelAndView();
         List<Post> posts = postService.findAll();
+        for(Post post : posts){
+            System.out.println(post.getUserId());
+            if(post.getUserId()!=null){
+                System.out.println(post.getUserId().getName());
+            }
+        }
         mav.addObject("posts",posts);
-        mav.setViewName("postList");
+        mav.setViewName("community");
 
         return mav;
     }
 
     //글 불러오기
     @GetMapping("/posts/{id}")
-    public ModelAndView getArticle(@PathVariable long id){
+    public ModelAndView getPost(@PathVariable long id){
         ModelAndView mav = new ModelAndView();
         Post post = postService.findOne(id);
         mav.addObject("post",post);

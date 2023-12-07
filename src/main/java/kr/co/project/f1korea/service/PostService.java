@@ -20,22 +20,18 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
-    // test용 글 등록
-    public Post save(AddPostRequest request){
-        Post post = request.toEntity();
-        return postRepository.save(request.toEntity());
-    }
-
     public Post save(AddPostRequest request, String userId) {
+        System.out.println(userId);
         Post post = request.toEntity();
         User user = userRepository.findByEmail(userId);
+        System.out.println("user:"+user.getEmail());
         post.setUserId(user);
-        return postRepository.save(request.toEntity());
+        return postRepository.save(post);
     }
 
     public List<Post> findAll() {
-        List<Post> post = postRepository.findAll();
-        return post;
+        List<Post> posts = postRepository.findAll();
+        return posts;
     }
     public Post findOne(long id) {
         Post post = postRepository.findById(id).orElseThrow(); // 찾아내지 못할 경우 에러가 발생하게 처리 -> orElseThrow
