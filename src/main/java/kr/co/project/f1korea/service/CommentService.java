@@ -38,6 +38,15 @@ public class CommentService {
 
         return commentRepository.save(comment);
     }
+    public void deleteComment(Long commentId) {
+        // 댓글 ID로 댓글 찾기
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+
+        // 댓글이 존재하면 삭제
+        if (comment != null) {
+            commentRepository.delete(comment);
+        }
+    }
 
 
     public List<Comment> getCommentsByPostId(Post postId) {

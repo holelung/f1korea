@@ -32,6 +32,18 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
 
+    @PostMapping("/comment")
+    public String addComment(CommentDto commentDto) {
+        commentService.saveComment(commentDto);
+        return "redirect:/post/" + commentDto.getPostId();
+    }
+
+    @GetMapping("/comment/delete/{commentId}")
+    public String deleteComment(@PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
+        // 포스트 ID를 가져와 리다이렉트 할 수 있도록 로직 추가 필요
+        return "redirect:/post/{postId}";
+    }
 
 
 }
