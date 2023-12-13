@@ -8,76 +8,78 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.16/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .table_title {
+            text-align:center;
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-            <div class="col-md-3 mb-2 mb-md-0 d-flex flex-wrap align-items-center">
-                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                    <img src="/img/F1_KoreaLogo.png" width="100" height="100" alt="F1 Korea">
-                </a>
-                <h1>F1 Korea<h1>
-            </div>
-            <div>
-                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-2">레드불</a></li>
-                    <li><a href="#" class="nav-link px-2">페라리</a></li>
-                    <li><a href="#" class="nav-link px-2">메르세데스</a></li>
-                    <li><a href="#" class="nav-link px-2">맥라렌</a></li>
-                    <li><a href="#" class="nav-link px-2">애스턴 마틴</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 text-end">
-                <a href="/login"  class="btn btn-outline-primary me-2">Login</a>
-                <button type="button" class="btn btn-primary">Sign-up</button>
-            </div>
-        </header>
-    </div>
+<div class="container">
 
-<div class="container mt-4">
-    <h2>Community</h2>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Search</button>
+
+    <div th:include="header :: header"></div>
+
+    <div class="container mt-4">
+        <h2>Community</h2>
+        <div class="input-group mb-3">
+            <form th:action="@{/posts/search}" method="get" class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="글 제목으로 검색" name="query" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+
+            <a href="/new-post" class="btn btn-primary me-3">글 작성하기</a>
         </div>
-    </div>
 
     <!-- Posts list -->
-    <div class="list-group" th:each="item : ${posts}">
-        <!-- Example post -->
-        <a th:href="@{/posts/{id}(id=${item.postId})}" class="mt-2 list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-                <div class="m-1">
-                    <h5 th:text = "${item.title}"></h5>
-                </div>
-                <div class="m-1">
-                    <div th:text ="${item.content}"></div>
-                </div>
-                <div class="m-1" th:if="${item.userId != null}">
-                    <small th:text="${item.userId.name}">작성자: </small>
-                </div>
-            </div>
-
-        </a>
-        <!-- More posts can be added here -->
+        <table class="table">
+            <thead class="table-dark justify-content-around text-center">
+            <tr>
+                <th>글번호</th>
+                <th class="table_title" style="width:75%">제목</th>
+                <td>작성자</td>
+                <th>작성일시</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr th:each="item, loop : ${posts}">
+                <td th:text="${posts.getTotalElements - (posts.number * posts.size) - loop.index}"></td>
+                <td class="table_title" >
+                    <a th:href="@{/posts/{id}(id=${item.postId})}" th:text="${item.title}"></a>
+                </td>
+                <td><span th:if="${item.userId != null}" th:text="${item.userId.name}"></span></td>
+                <td th:text="${#temporals.format(item.createTime, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 페이징처리 시작 -->
+        <div th:if="${!posts.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${!posts.hasPrevious} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{|?page=${posts.number-1}|}">
+                        <span>이전</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0, posts.totalPages-1)}"
+                    th:if="${page >= posts.number-2 and page <= posts.number+2}"
+                    th:classappend="${page == posts.number} ? 'active'"
+                    class="page-item">
+                    <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!posts.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${posts.number+1}|}">
+                        <span>다음</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    <!-- 페이징처리 끝 -->
     </div>
 </div>
 </body>
 </html>
 
-
-<!--<a href="/new-post" class="btn btn-primary">글 작성하기!</a>-->
-<!--<div class="container">-->
-<!--    <div class="row-6" th:each="item : ${posts}">-->
-<!--        <div class="card">-->
-<!--            <div class="card-header" th:text = "${item.title}"></div>-->
-<!--            <div class="card-body">-->
-<!--                <p class="card-text" th:text = "${item.content}"></p>-->
-<!--                <a th:href="@{/posts/{id}(id=${item.postId})}" class="btn btn-primary">글 보러가기</a>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->

@@ -7,6 +7,7 @@
 </head>
 <body>
 <div class="container">
+  <div th:include="header :: header"></div>
 
   <input type="text" class="form-control" id="email" placeholder="Email" >
   <input type="password" class="form-control" id="password" placeholder="Password" >
@@ -35,7 +36,7 @@
             .then((response) => response.json())
             .then((data) => {
                 if(data.success){
-                    location.href="/articles"
+                    location.href="/posts"
                 }
                 else{
                     window.alert(data.message)

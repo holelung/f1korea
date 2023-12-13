@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<body>
+  <!-- 헤더 코드 -->
+  <div class="header m-2" th:fragment="header">
+      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 mb-2 mb-md-0 d-flex flex-wrap align-items-center">
+          <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+            <img src="/img/F1_KoreaLogo.png" width="100" height="100" alt="F1 Korea">
+          </a>
+          <h1>F1 Korea<h1>
+        </div>
+        <div>
+          <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2">레드불</a></li>
+            <li><a href="#" class="nav-link px-2">페라리</a></li>
+            <li><a href="#" class="nav-link px-2">메르세데스</a></li>
+            <li><a href="#" class="nav-link px-2">맥라렌</a></li>
+            <li><a href="#" class="nav-link px-2">애스턴 마틴</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 text-end">
+          <div th:if="${session.userId == null}">
+            <!-- 로그인이 안 되어 있을 경우 -->
+            <a href="/login" class="btn btn-outline-primary me-2">Login</a>
+            <a href="/join" class="btn btn-primary">Sign-up</a>
+          </div>
+          <div th:if="${session.userId != nul}">
+            <!-- 로그인이 되어 있을 경우 -->
+            <a href="/mypage" class="btn btn-primary">마이페이지</a>
+          </div>
+        </div>
+      </header>
+  </div>
+</body>
+</html>

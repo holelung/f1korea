@@ -8,8 +8,14 @@ import kr.co.project.f1korea.dto.UpdatePostRequest;
 import kr.co.project.f1korea.repository.PostRepository;
 import kr.co.project.f1korea.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,9 +35,16 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public List<Post> findAll() {
-        List<Post> posts = postRepository.findAll();
-        return posts;
+    public Page<Post> getList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createTime"));
+
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        return this.postRepository.findAll(pageable);
+    }
+    public Page<Post> findAll(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
     public Post findOne(long id) {
         Post post = postRepository.findById(id).orElseThrow(); // 찾아내지 못할 경우 에러가 발생하게 처리 -> orElseThrow
@@ -45,6 +58,12 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow();
         post.update(request.getTitle(), request.getContent()); // 오류 무시해도 됨
         return post;
+    }
+    // postService 내부
+    public Page<Post> searchByQuery(String query, Pageable pageable) {
+        // 검색 로직 구현
+        // 예: JPA의 Repository를 사용하여 게시글 제목 또는 내용에서 검색어(query)를 포함하는 게시글 찾기
+        return postRepository.findByTitleContainingOrContentContaining(query, query, pageable);
     }
 
 
